@@ -1,0 +1,154 @@
+syntax = "proto3";
+
+package timetable;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/cortezzIP/Simbir.Health.API/gen/go/timetable-service;timetable";
+
+service Timetable {
+    rpc CreateTimetableRecord(CreateTimetableRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "api/Timetable"
+            body: "*"
+        };
+    }
+
+    rpc CreateAppointmentRecord(CreateAppointmentRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "api/Timetable/{id}/Appointments"
+            body: "*"
+        };
+    }
+
+    rpc GetTimetableByHospitalId(GetTimetableByHospitalIdRequest) returns (GetTimetableByHospitalIdResponse) {
+        option (google.api.http) = {
+            get: "api/Timetable/Hospital/{id}"
+        };
+    }
+
+    rpc GetTimetableByDoctorId(GetTimetableByDoctorIdRequest) returns (GetTimetableByDoctorIdResponse) {
+        option (google.api.http) = {
+            get: "api/Timetable/Doctor/{id}"
+        };
+    }
+
+    rpc GetTimetableByHospitalRoom(GetTimetableByHospitalRoomRequest) returns (GetTimetableByHospitalRoomResponse) {
+        option (google.api.http) = {
+            get: "api/Timetable/Hospital/{id}/Room/{room}"
+        };
+    }
+
+    rpc GetFreeCouponsForDoctorsAppointment(google.protobuf.Empty) returns (GetFreeCouponsForDoctorsAppointmentResponse) {
+        option (google.api.http) = {
+            get: "api/Timetable/{id}/Appointments"
+        };
+    }
+
+    rpc UpdateTimetableRecord(UpdateTimetableRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "api/Timetable/{id}"
+            body: "*"
+        };
+    }
+
+    rpc DeleteTimetableRecord(DeleteTimetableRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "api/Timetable/{id}"
+        };
+    }
+
+    rpc DeleteTimetableRecordByDoctorId(DeleteTimetableRecordByDoctorIdRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "api/Timetable/Doctor/{id}"
+        };
+    }
+
+    rpc DeleteTimetableRecordByHospitalId(DeleteTimetableRecordByHospitalIdRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "api/Timetable/Hospital/{id}"
+        };
+    }
+
+    rpc DeleteAppointmentRecord(DeleteAppointmentRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "api/Appointment/{id}"
+        };
+    }
+}
+
+message TimetableRecordInfo {
+    optional int64 hospitalId = 1;
+    int64 doctorId = 2;
+    google.protobuf.Timestamp from = 3;
+    google.protobuf.Timestamp to = 4;
+    string room = 5;
+}
+
+message AppointmentRecordInfo {
+    google.protobuf.Timestamp time = 1;
+}
+
+message CreateTimetableRecordRequest {
+    TimetableRecordInfo timetableRecordInfo = 1;
+}
+
+message CreateAppointmentRecordRequest {
+    AppointmentRecordInfo appointmentRecordInfo = 1;
+}
+
+message GetTimetableByHospitalIdRequest {
+    int64 hospitalId = 1;
+    google.protobuf.Timestamp from = 2;
+    google.protobuf.Timestamp to = 3;
+}
+
+message GetTimetableByHospitalIdResponse {
+    repeated TimetableRecordInfo timetableRecordsInfo = 1;
+}
+
+message GetTimetableByDoctorIdRequest {
+    int64 doctorId = 1;
+    google.protobuf.Timestamp from = 2;
+    google.protobuf.Timestamp to = 3;
+}
+
+message GetTimetableByDoctorIdResponse {
+    repeated TimetableRecordInfo timetableRecordsInfo = 1;
+}
+
+message GetTimetableByHospitalRoomRequest {
+    string room = 1;
+    google.protobuf.Timestamp from = 2;
+    google.protobuf.Timestamp to = 3;
+}
+
+message GetTimetableByHospitalRoomResponse {
+    repeated TimetableRecordInfo timetableRecordsInfo = 1;
+}
+
+message GetFreeCouponsForDoctorsAppointmentResponse {
+    repeated AppointmentRecordInfo appointmentRecordsInfo = 1;
+}
+
+message UpdateTimetableRecordRequest {
+    TimetableRecordInfo timetableRecordInfo = 1;
+}
+
+message DeleteTimetableRecordRequest {
+    int64 id = 1;
+}
+
+message DeleteTimetableRecordByDoctorIdRequest {
+    int64 doctorId = 1;
+}
+
+message DeleteTimetableRecordByHospitalIdRequest {
+    int64 hospitalId = 1;
+}
+
+message DeleteAppointmentRecordRequest {
+    int64 id = 1;
+}

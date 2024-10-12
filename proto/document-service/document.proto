@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package document;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+option go_package = "github.com/cortezzIP/Simbir.Health-API/gen/go/document-service;document";
+
+service Document {
+    rpc CreateHistoryRecord(CreateHistoryRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "api/History"
+            body: "*"
+        };
+    }
+
+    rpc GetHistoryRecordsByPacientId(GetHistoryRecordsByPacientIdRequest) returns (GetHistoryRecordsByPacientIdResponse) {
+        option (google.api.http) = {
+            get: "api/History/Account/{id}"
+        };
+    }
+
+    rpc GetHistoryRecordById(GetHistoryRecordByIdRequest) returns (GetHistoryRecordByIdResponse) {
+        option (google.api.http) = {
+            get: "api/History/{id}"
+        };
+    }
+
+    rpc UpdateHistoryRecord(UpdateHistoryRecordRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "api/History/{id}"
+            body: "*"
+        };
+    }
+}
+
+message HistoryRecordInfo {
+    optional int64 id = 1;
+    google.protobuf.Timestamp date = 2;
+    int64 pacientId = 3;
+    int64 hospitalId = 4;
+    int64 doctorId = 5;
+    string room = 6;
+    string data = 7;
+} 
+
+message CreateHistoryRecordRequest {
+    HistoryRecordInfo historyRecordInfo = 1;
+}
+
+message GetHistoryRecordsByPacientIdRequest {
+    int64 pacientId = 1;
+}
+
+message GetHistoryRecordsByPacientIdResponse {
+    repeated HistoryRecordInfo historyRecordsInfo = 1;
+}
+
+message GetHistoryRecordByIdRequest {
+    int64 id = 1;
+}
+
+message GetHistoryRecordByIdResponse {
+    HistoryRecordInfo historyRecordInfo = 1;
+}
+
+message UpdateHistoryRecordRequest {
+    int64 id = 1;
+    HistoryRecordInfo historyRecordInfo = 2;
+}

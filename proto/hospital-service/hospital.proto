@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package hospital;
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "github.com/cortezzIP/Simbir.Health-API/gen/go/hospital-service;hospital";
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+    info: {
+        title: "Hospital";
+        version: "1.0";
+        contact: {
+            name: "cortezzIP";
+            url: "https://github.com/cortezzIP/Simbir.Health-API";
+        };
+    };
+
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+};
+
+service Hospital {
+    rpc CreateHospital(CreateHospitalRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/api/Hospitals"
+            body: "*"
+        };
+    }
+
+    rpc GetHospitals(GetAllHospitalsRequest) returns (GetAllHospitalsResponse) {
+        option (google.api.http) = {
+            get: "/api/Hospitals"
+        };
+    }
+
+    rpc GetHospitalById(GetHospitalByIdRequest) returns (GetHospitalByIdResponse) {
+        option (google.api.http) = {
+            get: "/api/Hospitals/{id}"
+        };
+    }
+
+    rpc GetHospitalRooms(GetHospitalsRoomsRequest) returns (GetHospitalsRoomsResponse){
+        option (google.api.http) = {
+            get: "/api/Hospitals/{id}/Rooms"
+        };
+    }
+
+    rpc UpdateHospital(UpdateHospitalRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            put: "/api/Hospitals/{id}"
+            body: "*"
+        };
+    }
+
+    rpc DeleteHospital(DeleteHospitalRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            delete: "/api/Hospitals/{id}"
+        };    
+    }
+}
+
+message HospitalInfo {
+    int64 id = 1;
+    string name = 2;
+    string address = 3;
+    string contact_phone = 4;
+    repeated string rooms = 5;
+}
+
+message CreateHospitalRequest {
+    HospitalInfo hospital = 1;
+}
+
+message GetAllHospitalsRequest {
+    int64 from = 1;
+    int64 count = 2;
+}
+
+message GetAllHospitalsResponse {
+    repeated HospitalInfo hospitals = 1;
+}
+
+message GetHospitalByIdRequest {
+    int64 id = 1;
+}
+
+message GetHospitalByIdResponse {
+    HospitalInfo hospital = 1;
+}
+
+message GetHospitalsRoomsRequest {
+    int64 id = 1;
+}
+
+message GetHospitalsRoomsResponse {
+    repeated string rooms = 1;
+}
+
+message UpdateHospitalRequest {
+    int64 id = 1;
+    HospitalInfo hospital = 2;
+}
+
+message DeleteHospitalRequest {
+    int64 id = 1;
+}

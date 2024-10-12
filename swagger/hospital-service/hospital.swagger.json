@@ -1,0 +1,327 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Hospital",
+    "version": "1.0",
+    "contact": {
+      "name": "cortezzIP",
+      "url": "https://github.com/cortezzIP/Simbir.Health-API"
+    }
+  },
+  "tags": [
+    {
+      "name": "Hospital"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/Hospitals": {
+      "get": {
+        "operationId": "Hospital_GetHospitals",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/hospitalGetAllHospitalsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      },
+      "post": {
+        "operationId": "Hospital_CreateHospital",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/hospitalCreateHospitalRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      }
+    },
+    "/api/Hospitals/{id}": {
+      "get": {
+        "operationId": "Hospital_GetHospitalById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/hospitalGetHospitalByIdResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      },
+      "delete": {
+        "operationId": "Hospital_DeleteHospital",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      },
+      "put": {
+        "operationId": "Hospital_UpdateHospital",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HospitalUpdateHospitalBody"
+            }
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      }
+    },
+    "/api/Hospitals/{id}/Rooms": {
+      "get": {
+        "operationId": "Hospital_GetHospitalRooms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/hospitalGetHospitalsRoomsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Hospital"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "HospitalUpdateHospitalBody": {
+      "type": "object",
+      "properties": {
+        "hospital": {
+          "$ref": "#/definitions/hospitalHospitalInfo"
+        }
+      }
+    },
+    "hospitalCreateHospitalRequest": {
+      "type": "object",
+      "properties": {
+        "hospital": {
+          "$ref": "#/definitions/hospitalHospitalInfo"
+        }
+      }
+    },
+    "hospitalGetAllHospitalsResponse": {
+      "type": "object",
+      "properties": {
+        "hospitals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/hospitalHospitalInfo"
+          }
+        }
+      }
+    },
+    "hospitalGetHospitalByIdResponse": {
+      "type": "object",
+      "properties": {
+        "hospital": {
+          "$ref": "#/definitions/hospitalHospitalInfo"
+        }
+      }
+    },
+    "hospitalGetHospitalsRoomsResponse": {
+      "type": "object",
+      "properties": {
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hospitalHospitalInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "contactPhone": {
+          "type": "string"
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
